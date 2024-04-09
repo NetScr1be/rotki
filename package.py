@@ -605,6 +605,9 @@ class BackendBuilder:
         bootloader_directory = pyinstaller_directory / 'bootloader'
         os.chdir(bootloader_directory)
 
+        if self.__env.target_arch is not None:
+            os.environ.setdefault('CC', f'clang -arch {self.__env.target_arch}')
+
         build_ret_code = subprocess.call(f'./waf --no-universal2 all', shell=True)
         if build_ret_code != 0:
             logger.error(f'failed to build pyinstaller bootloader')
@@ -747,7 +750,7 @@ class BackendBuilder:
         package_env = os.environ.copy()
         package_env.setdefault('PYTHONOPTIMIZE', '2')
         package_ret_code = subprocess.call(
-            f'pyinstaller -v --noconfirm --clean --distpath "{backend_directory}" rotkehlchen.spec',
+            f'pyinstaller --noconfirm --clean --distpath "{backend_directory}" rotkehlchen.spec',
             shell=True,
             env=package_env,
         )
