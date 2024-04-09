@@ -19,6 +19,7 @@ PyInstaller spec file to build single file or dir distributions
 # Set to false to produce an exploded single-dir
 ONEFILE = int(os.environ.get('ONEFILE', True))
 MACOS_BUILD_ARCH = os.environ.get('MACOS_BUILD_ARCH', None)
+MACOS_IDENTITY = os.environ.get('IDENTITY', None)
 
 
 def Entrypoint(dist, group, name, scripts=None, pathex=None, hiddenimports=None, hookspath=None, excludes=None, runtime_hooks=None, datas=None):  # noqa: E501
@@ -115,6 +116,13 @@ if ONEFILE:
         console=True,
     )
 else:
+
+    identity = None
+    entitlements = None
+    if MACOS_IDENTITY is not None:
+        identity = MACOS_IDENTITY
+        entitlements = 'packaging/entitlements.plist'
+
     exe = EXE(
         pyz,
         a.scripts,
@@ -124,7 +132,9 @@ else:
         strip=False,
         upx=False,
         console=True,
-        target_arch=MACOS_BUILD_ARCH
+        target_arch=MACOS_BUILD_ARCH,
+        codesign_identity=identity,
+        entitlements_file=entitlements,
     )
 
     coll = COLLECT(
