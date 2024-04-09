@@ -20,7 +20,7 @@ from packaging import version
 
 rotki_version = get_version()
 
-pyinstaller_version = os.environ.get('PYINSTALLER_VERSION', '6.5.0')
+pyinstaller_version = os.environ.get('PYINSTALLER_VERSION', '6.3.0')
 BACKEND_PREFIX = 'rotki-core'
 SUPPORTED_ARCHS = [
     'AMD64',  # Windows
