@@ -747,8 +747,21 @@ class BackendBuilder:
         backend_directory = self.__storage.backend_directory
         package_env = os.environ.copy()
         package_env.setdefault('PYTHONOPTIMIZE', '2')
+
+        identify = os.environ.get('IDENTITY')
+        if identify is not None:
+            sign = (f'--codesign-identity ${identify} '
+                    f'--osx-entitlements-file ./packaging/entitlements.plist')
+        else:
+            sign = ''
+
+        cmd = (f'pyinstaller {sign} '
+               f'--noconfirm '
+               f'--clean '
+               f'--distpath "{backend_directory}" rotkehlchen.spec')
+
         package_ret_code = subprocess.call(
-            f'pyinstaller --noconfirm --clean --distpath "{backend_directory}" rotkehlchen.spec',
+            cmd,
             shell=True,
             env=package_env,
         )
