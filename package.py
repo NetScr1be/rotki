@@ -747,7 +747,7 @@ class BackendBuilder:
         package_env = os.environ.copy()
         package_env.setdefault('PYTHONOPTIMIZE', '2')
         package_ret_code = subprocess.call(
-            f'pyinstaller --noconfirm --clean --distpath "{backend_directory}" rotkehlchen.spec',
+            f'pyinstaller -v --noconfirm --clean --distpath "{backend_directory}" rotkehlchen.spec',
             shell=True,
             env=package_env,
         )
