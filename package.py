@@ -20,7 +20,7 @@ from packaging import version
 
 rotki_version = get_version()
 
-pyinstaller_version = os.environ.get('PYINSTALLER_VERSION', '6.3.0')
+pyinstaller_version = os.environ.get('PYINSTALLER_VERSION', '6.5.0')
 BACKEND_PREFIX = 'rotki-core'
 SUPPORTED_ARCHS = [
     'AMD64',  # Windows
@@ -750,7 +750,7 @@ class BackendBuilder:
         package_env = os.environ.copy()
         package_env.setdefault('PYTHONOPTIMIZE', '2')
         package_ret_code = subprocess.call(
-            f'pyinstaller -v --noconfirm --clean --distpath "{backend_directory}" rotkehlchen.spec',
+            f'pyinstaller --log-level DEBUG --noconfirm --clean --distpath "{backend_directory}" rotkehlchen.spec',
             shell=True,
             env=package_env,
         )
