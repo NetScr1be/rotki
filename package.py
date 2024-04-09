@@ -604,11 +604,10 @@ class BackendBuilder:
 
         bootloader_directory = pyinstaller_directory / 'bootloader'
         os.chdir(bootloader_directory)
-        flag = '--no-universal2'
 
-        build_ret_code = subprocess.call(f'./waf all {flag}', shell=True)
+        build_ret_code = subprocess.call(f'./waf --no-universal2 all', shell=True)
         if build_ret_code != 0:
-            logger.error(f'failed to build pyinstaller bootloader for {flag}')
+            logger.error(f'failed to build pyinstaller bootloader')
             sys.exit(1)
 
         os.chdir(pyinstaller_directory)
